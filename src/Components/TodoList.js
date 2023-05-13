@@ -1,10 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useContext } from "react";
+import TodoContext from "../context";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 
-const TodoList = ({todoList, markTaskAsDone, setUpdateData, deleteTask}) => {
-
+const TodoList = ({ markTaskAsDone, setUpdateData, deleteTask}) => {
+    const todoList = useContext(TodoContext);
 
     return (
         <>

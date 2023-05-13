@@ -3,6 +3,7 @@ import './App.css';
 import AddTask from './Components/AddTask';
 import TodoList from './Components/TodoList';
 import UpdateTask from './Components/UpdateTask';
+import TodoContext from './context';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -10,11 +11,6 @@ function App() {
   const [newTask, setNewTask] = useState('');
   const [updateData, setUpdateData] = useState('');
 
-//  task = {
-//    id: 1,
-//    title: newTask,
-//    status: true
-//  }
 
   const addTask = () => {
     if(newTask){
@@ -66,7 +62,8 @@ function App() {
   
 
   return (
-    <div className='container App'>
+    <TodoContext.Provider value={todoList}>
+      <div className='container App'>
       <h2>To-do App</h2>
 
       
@@ -80,13 +77,13 @@ function App() {
 
       <br />
       <TodoList 
-        todoList={todoList}
         markTaskAsDone={markTaskAsDone} 
         setUpdateData={setUpdateData} 
         deleteTask={deleteTask}
       />
 
     </div>
+    </TodoContext.Provider>
   );
 }
 
