@@ -1,4 +1,13 @@
-const UpdateTask = ({updateData, changeTask, updateTask, cancelTask}) => {
+import { useDispatch } from "react-redux";
+
+const UpdateTask = ({updateData, setUpdateData, changeTask, updateTask, cancelTask}) => {
+    const dispatch = useDispatch();
+
+    const updateTodoList = () => {
+        dispatch({type: 'UPDATE_TASK', data: updateData});
+        setUpdateData('');
+    }
+
     return (
         <div className="row">
             <div className="col">
@@ -6,7 +15,7 @@ const UpdateTask = ({updateData, changeTask, updateTask, cancelTask}) => {
                  value={updateData && updateData.title} onChange={e => changeTask(e)} />
             </div>
             <div className="col-auto">
-                <button onClick={updateTask} className='btn btn-lg btn-success'>
+                <button onClick={updateTodoList} className='btn btn-lg btn-success'>
                     Update
                 </button>
                 <button onClick={cancelTask} className='btn btn-lg btn-success'>

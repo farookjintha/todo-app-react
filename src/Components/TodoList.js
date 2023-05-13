@@ -1,11 +1,15 @@
 import React, { useContext } from "react";
-import TodoContext from "../context";
+// import TodoContext from "../context";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
+import { useSelector, useDispatch } from "react-redux";
 
-const TodoList = ({ markTaskAsDone, setUpdateData, deleteTask}) => {
-    const todoList = useContext(TodoContext);
+const TodoList = ({ markTaskAsDone, setUpdateData}) => {
+    // const todoList = useContext(TodoContext);
+    const dispatch = useDispatch();
+
+    const todoList = useSelector(store => store.todoList);
 
     return (
         <>
@@ -20,7 +24,7 @@ const TodoList = ({ markTaskAsDone, setUpdateData, deleteTask}) => {
                         <div className="icon-wrapper">
 
 
-                            <span title="Completed / Not Completed" onClick={() => markTaskAsDone(task.id)} >
+                            <span title="Completed / Not Completed" onClick={() => dispatch({type: 'MARK_DONE', data: {id: task.id}})} >
                                 <FontAwesomeIcon icon={faCircleCheck} />
                             </span>
 
@@ -36,7 +40,7 @@ const TodoList = ({ markTaskAsDone, setUpdateData, deleteTask}) => {
                             </span>
 
 
-                            <span title='Delete' onClick={() => deleteTask(task.id)}>
+                            <span title='Delete' onClick={() => dispatch({type: 'DELETE_TASK', data: {id: task.id}})}>
                                 <FontAwesomeIcon icon={faTrashCan} />
                             </span>
 

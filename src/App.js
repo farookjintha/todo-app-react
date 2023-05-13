@@ -1,34 +1,14 @@
 import { useState } from 'react';
+import { Provider } from 'react-redux';
 import './App.css';
 import AddTask from './Components/AddTask';
 import TodoList from './Components/TodoList';
 import UpdateTask from './Components/UpdateTask';
 import TodoContext from './context';
+import store from './store/store';
 
 function App() {
-  const [todoList, setTodoList] = useState([]);
-
-  const [newTask, setNewTask] = useState('');
   const [updateData, setUpdateData] = useState('');
-
-
-  const addTask = () => {
-    if(newTask){
-      let id = todoList.length + 1;
-      let newData = {id, title: newTask, status: false};
-      setTodoList([...todoList, newData]);
-
-      setNewTask('');
-    }
-  }
-
-  const updateTask = () => {
-    const filteredTasks = todoList.filter(task => task.id !== updateData.id);
-    let updatedTaskList = [...filteredTasks, updateData];
-    setTodoList(updatedTaskList);
-
-    setUpdateData('');
-  }
 
   const changeTask = (e) => {
     let newEntry = {
@@ -43,47 +23,26 @@ function App() {
     setUpdateData('');
   }
 
-  const deleteTask = (id) => {
-    let filteredTasks = todoList.filter(task => task.id !== id);
-    setTodoList(filteredTasks);
-  } 
-
-  const markTaskAsDone = (id) => {
-    let updatedTasks = todoList.map(task => {
-      if(task.id === id){
-        return {...task, status: !task.status}
-      }
-      return task;
-    })
-
-    setTodoList(updatedTasks);
-  }
-
-  
-
   return (
-    <TodoContext.Provider value={todoList}>
-      <div className='container App'>
-      <h2>To-do App</h2>
+    // <TodoContext.Provider value={todoList}>
+    <Provider store={store}>
+        <div className='container App'>
+        <h2>To-do App</h2>
 
-      
-      {
-        updateData && updateData ? (
-          <UpdateTask updateData={updateData} changeTask={changeTask} updateTask={updateTask} cancelTask={cancelTask} />
-        ) : (
-          <AddTask newTask={newTask}  setNewTask={setNewTask} addTask={addTask} />
-        )
-      }
+        {
+          updateData && updateData ? (
+            <UpdateTask updateData={updateData} setUpdateData={setUpdateData} cancelTask={cancelTask} changeTask={changeTask}/>
+          ) : (
+            <AddTask />
+          )
+        }
 
-      <br />
-      <TodoList 
-        markTaskAsDone={markTaskAsDone} 
-        setUpdateData={setUpdateData} 
-        deleteTask={deleteTask}
-      />
+        <br />
+        <TodoList setUpdateData={setUpdateData} />
 
-    </div>
-    </TodoContext.Provider>
+      </div>
+    </Provider>
+    // </TodoContext.Provider>
   );
 }
 
